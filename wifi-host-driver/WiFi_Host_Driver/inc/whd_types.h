@@ -24,7 +24,7 @@
 
 #include "cybsp.h"
 #include "cy_result.h"
-#include "cyhal_hw_types.h"
+#include "zephyr/drivers/gpio.h"
 
 #ifndef INCLUDED_WHD_TYPES_H_
 #define INCLUDED_WHD_TYPES_H_
@@ -1001,10 +1001,12 @@ typedef struct
  */
 typedef struct whd_oob_config
 {
-    cyhal_gpio_t host_oob_pin;   /**< Host-side GPIO pin selection */
+    struct gpio_dt_spec host_oob_pin; /**< Host-side GPIO pin selection */
     uint8_t dev_gpio_sel;        /**< WiFi device-side GPIO pin selection (must be zero) */
     whd_bool_t is_falling_edge;  /**< Interrupt trigger (polarity) */
     uint8_t intr_priority;       /**< OOB interrupt priority */
+    struct gpio_callback callback;
+    struct whd_driver *driver;
 } whd_oob_config_t;
 
 /**
